@@ -1,24 +1,39 @@
-import logo from './logo.svg';
+import React, { useState } from "react";
+import { ColorItem } from "./ColorItem";
+import Values from "values.js";
 import './App.css';
 
 function App() {
+  const [color, setColor] = useState("");
+  const [list, setList] = useState([]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const colors = new Values(color).all(10);
+    setList(colors);
+  }
+  const handleColor = (event) => {
+    setColor(event.target.value);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <section className="data">
+        <h1>Color Generator App</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={color}
+            onChange={handleColor}
+            placeholder="#03a9f4"
+          />
+          <button type="submit">
+            Submit
+          </button>
+        </form>
+      </section>
+      <ColorItem list={list} />
+    </React.Fragment>
+
   );
 }
 
